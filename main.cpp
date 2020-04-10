@@ -1,3 +1,5 @@
+#include <iostream>
+
 /*
 Project 3 - Part 2 / 5
 Video: Chapter 2 Part 6
@@ -205,7 +207,7 @@ struct ElectricGuitar
 
 void ElectricGuitar::outputSound()
 {
-	
+	std::cout << "ElectricGuitar::outputSound() called" << std::endl;
 }
 
 void ElectricGuitar::setVolume(float newVolumePosition)
@@ -259,7 +261,11 @@ void TapePlayer::playTape(TapePlayer::Tape& tapeToPlay, float lengthToPlay)
 	float startingPosition = tapeToPlay.currentPosition;
 
 	tapeToPlay.currentPosition -= lengthToPlay;
-	if(tapeToPlay.currentPosition > tapeToPlay.length) tapeToPlay.currentPosition = tapeToPlay.length;
+    
+	if(tapeToPlay.currentPosition > tapeToPlay.length) 
+    {
+        tapeToPlay.currentPosition = tapeToPlay.length;
+    }
 
 	tapeTimerPosition += tapeToPlay.currentPosition - startingPosition;
 }
@@ -267,20 +273,33 @@ void TapePlayer::playTape(TapePlayer::Tape& tapeToPlay, float lengthToPlay)
 void TapePlayer::rewindTape(TapePlayer::Tape& tapeToRewind, float amountToRewind)
 {
 	tapeToRewind.currentPosition -= amountToRewind;
-	if(tapeToRewind.currentPosition < 0.0f) tapeToRewind.currentPosition = 0.0f;
+	if(tapeToRewind.currentPosition < 0.0f) 
+    {
+        tapeToRewind.currentPosition = 0.0f;
+    }
 
 	tapeTimerPosition -= amountToRewind;
-	if(tapeTimerPosition < 0.0f) tapeTimerPosition = 0.0f;
+	if(tapeTimerPosition < 0.0f) 
+    {
+        tapeTimerPosition = 0.0f;
+    }
 }
 
 bool TapePlayer::recordToTape(TapePlayer::Tape& tapeToRecord, float amountToRecord)
 {
-	if(tapeToRecord.currentPosition == tapeToRecord.length) return false;
+	if(tapeToRecord.currentPosition == tapeToRecord.length) 
+    {
+        return false;
+    }
 
 	float startingPosition = tapeToRecord.currentPosition;
 
 	tapeToRecord.currentPosition -= amountToRecord;
-	if(tapeToRecord.currentPosition > tapeToRecord.length) tapeToRecord.currentPosition = tapeToRecord.length;
+
+	if(tapeToRecord.currentPosition > tapeToRecord.length) 
+    {
+        tapeToRecord.currentPosition = tapeToRecord.length;
+    }
 
 	tapeTimerPosition += tapeToRecord.currentPosition - startingPosition;
 
@@ -312,12 +331,12 @@ struct Display
 
 void Display::updatePixels()
 {
-
+    std::cout << "Display::updatePixels() called" << std::endl;
 }
 
 void Display::clearPixels()
 {
-
+    std::cout << "Display::clearPixels() called" << std::endl;
 }
 
 void Display::setBrightness(float newBrightnessValue)
@@ -344,7 +363,7 @@ struct WiFiAdapter
 
 void WiFiAdapter::connectToAccessPoint()
 {
-
+    std::cout << "WiFiAdapter::connectToAccessPoint() called" << std::endl;
 }
 
 float WiFiAdapter::uploadData(float amountToUpload)
@@ -376,12 +395,12 @@ struct AudioOutputSystem
 
 void AudioOutputSystem::outputAudio()
 {
-	
+	std::cout << "AudioOutputSystem::outputAudio() called" << std::endl;
 }
 
 void AudioOutputSystem::receiveAudioInput()
 {
-	
+	std::cout << "AudioOutputSystem::receiveAudioInput() called" << std::endl;
 }
 
 void AudioOutputSystem::setVolumeLevel(float newVolumeLevel)
@@ -408,7 +427,7 @@ struct CPU
 
 void CPU::fetchInstructions()
 {
-
+    std::cout << "CPU::fetchInstructions() called" << std::endl;
 }
 
 float CPU::executeInstructions(float sizeOfInstructions)
@@ -418,7 +437,7 @@ float CPU::executeInstructions(float sizeOfInstructions)
 
 void CPU::sendDataToRAM()
 {
-
+    std::cout << "CPU::sendDataToRAM() called" << std::endl;
 }
 
 /*
@@ -440,19 +459,22 @@ struct RAM
 
 bool RAM::writeToMemory(int dataToWrite)
 {
-    if(dataToWrite < capacityInMB) return true;
+    if(dataToWrite < capacityInMB) 
+    {
+        return true;
+    }
 
     return false;
 }
 
 void RAM::clearMemory()
 {
-
+    std::cout << "RAM::clearMemory() called" << std::endl;
 }
 
 void RAM::sendDataToCPU()
 {
-
+    std::cout << "RAM::sendDataToCPU() called" << std::endl;
 }
 
 /*
@@ -474,17 +496,17 @@ struct PortableVideoGameSystem
 
 void PortableVideoGameSystem::loadSoftware()
 {
-
+    std::cout << "PortableVideoGameSystem::loadSoftware() called" << std::endl;
 }
 
 void PortableVideoGameSystem::sendImageToDisplay()
 {
-
+    std::cout << "PortableVideoGameSystem::sendImageToDisplay() called" << std::endl;
 }
 
 void PortableVideoGameSystem::sendSoundToSpeakers()
 {
-
+    std::cout << "PortableVideoGameSystem::sendSoundToSpeakers() called" << std::endl;
 }
 
 #include <iostream>
