@@ -1,8 +1,10 @@
- /*
- Project 3 - Part 2 / 5
- Video: Chapter 2 Part 6
- Implementations tasks
- 
+#include <iostream>
+
+/*
+Project 3 - Part 2 / 5
+Video: Chapter 2 Part 6
+Implementations tasks
+
 Create a branch named Part2
 
  tasks
@@ -15,19 +17,62 @@ Create a branch named Part2
     You'll need to insert the Person struct from the video in the space below.
  */
 
+struct Person
+{
+    struct Foot
+    {
+        int legLength;
+        int numSteps;
+
+        int stepSize(int howFast)
+        {
+            return howFast * legLength;
+        }
+
+        void stepForward()
+        {
+            numSteps += 1;
+        }
+    };
+
+    Foot leftFoot;
+    Foot rightFoot;
+    int age;
+    int height;
+    float hairLength;
+    float GPA;
+    unsigned int SATScore;
+    int distanceTraveled;
+
+    void run(int howFast, bool startWithLeftFoot);
+};
+
+void Person::run(int howFast, bool startWithLeftFoot)
+{
+    if (startWithLeftFoot == true)
+    {
+        leftFoot.stepForward();
+        rightFoot.stepForward();
+    }
+    else
+    {
+        rightFoot.stepForward();
+        leftFoot.stepForward();
+    }
+    distanceTraveled += leftFoot.stepSize(howFast) + rightFoot.stepSize(howFast);
+}
 
 
 
+/*
+2) provide implementations for the member functions you declared in your 10 user-defined types from the previous video outside of your UDT definitions.
 
- /*
- 2) provide implementations for the member functions you declared in your 10 user-defined types from the previous video outside of your UDT definitions.
- 
- 3) be sure to write the correct full qualified name for the nested type's member functions.
- 
- 4) After you finish defining each type/function, click the [run] button.  Clear up any errors or warnings as best you can.
- 
- Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
- 
+3) be sure to write the correct full qualified name for the nested type's member functions.
+
+4) After you finish defining each type/function, click the [run] button.  Clear up any errors or warnings as best you can.
+
+Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
+
 Make a pull request after you make your first commit and pin the pull request link to our DM thread.
 
 send me a DM to check your pull request
@@ -36,42 +81,58 @@ send me a DM to check your pull request
  */
 
 
-/*
-1)
- */
+ /*
+ 1)
+  */
 
 struct Chameleon
 {
     struct Color
     {
-        int red;
-        int green;
-        int blue;
-        int alpha;
+        int red = 255;
+        int green = 255;
+        int blue = 255;
+        int alpha = 255;
 
-        void setColor(int newRedValue, int newGreenValue, int newBlueValue);
-        void setAlpha(int newAlphaValue);
+        void setColor(int newRedValue, int newGreenValue, int newBlueValue)
+        {
+            red = newRedValue;
+            green = newGreenValue;
+            blue = newBlueValue;
+        }
+
+        void setAlpha(int newAlphaValue)
+        {
+            alpha = newAlphaValue;
+        }
     };
 
-    // 1) Length
-    float length;
-    // 2) Weight
-    float weight;
-    // 3) Color
+    float length = 5;
+    float weight = 3;
     Color color;
-    // 4) Number of Teeth
-    int numberOfTeeth;
-    // 5) Scales
-    int numberOfScales;
+    int numberOfTeeth = 35;
+    int numberOfScales = 4800;
+    float totalTongueFlickDistance = 0;
 
-    // 1) Run
-    void run(float speed, float distanceToTravel);
-    // 2) Change Color
+    float run(float speed, float timeToRun);
     void changeColor(int newRedValue, int newGreenValue, int newBlueValue);
-    // 3) Flick Tongue
     void flickTongue(float flickDistance, int numberOfFlicks);
 };
 
+float Chameleon::run(float speed, float timeToRun)
+{
+    return speed * timeToRun;
+}
+
+void Chameleon::changeColor(int newRedValue, int newGreenValue, int newBlueValue)
+{
+    color.setColor(newRedValue, newGreenValue, newBlueValue);
+}
+
+void Chameleon::flickTongue(float flickDistance, int numberOfFlicks)
+{
+    totalTongueFlickDistance += numberOfFlicks * flickDistance;
+}
 
 /*
 2)
@@ -79,26 +140,53 @@ struct Chameleon
 
 struct FastFoodRestaurant
 {
-    // 1) Deep fryers
-    int numDeepFryers;
-    // 2) Cash registers
-    int numCashRegisters;
-    // 3) Profits per week
-    float profitsPerWeek;
-    // 4) Fries used per week
-    int potatoesUsedPerWeek;
-    // 5) Burger patties in freezer
-    int burgersInFreezer;
+    float profitPerBurger = 1.60f;
+    float profitPerPotato = 0.49f;
+    float profitsPerWeek = 0.0f;
+    int burgersUsedPerWeek = 0;
+    int potatoesUsedPerWeek = 0;
+    int burgersInFreezer = 100;
+    int potatoesInPantry = 100;
 
-    // 1) Make burger
     bool makeBurger(int numBurgers);
-    // 2) Make fries
     bool makeFries(int potatoesToUse);
-    // 3) Charge customer
-    float chargeCustomer();
-    // 4) Make special chameleon burger
-    bool makeChameleonBurger(Chameleon chameleon);
+    void restockSupplies(int newPotatoes, int newBurgers);
+    bool makeChameleonBurger(Chameleon& chameleon);
 };
+
+bool FastFoodRestaurant::makeBurger(int burgersToMake)
+{
+    if (burgersInFreezer > 0)
+    {
+        burgersInFreezer -= burgersToMake;
+        return true;
+    }
+
+    return false;
+}
+
+bool FastFoodRestaurant::makeFries(int potatoesToUse)
+{
+    if (potatoesToUse < potatoesInPantry)
+    {
+        potatoesInPantry -= potatoesToUse;
+        return true;
+    }
+
+    return false;
+}
+
+void FastFoodRestaurant::restockSupplies(int newPotatoes, int newBurgers)
+{
+    potatoesInPantry += newPotatoes;
+    burgersInFreezer += newBurgers;
+}
+
+bool FastFoodRestaurant::makeChameleonBurger(Chameleon& chameleon)
+{
+    chameleon.changeColor(150, 75, 0);
+    return true;
+}
 
 /*
 3)
@@ -106,24 +194,31 @@ struct FastFoodRestaurant
 
 struct ElectricGuitar
 {
-    // 1) Neck length
-    float neckLength;
-    // 2) Volume knob position
-    float volumeKnobPosition;
-    // 3) Tone knob position
-    float toneKnobPosition;
-    // 4) Number of pickups
-    int numberOfPickups;
-    // 5) Number of strings
-    int numberOfStrings;
+    float neckLength = 32.5f;
+    float volumeKnobPosition = 1.0f;
+    float toneKnobPosition = 1.0f;
+    int numberOfPickups = 3;
+    int numberOfStrings = 6;
 
-    // 1) Output sound
     void outputSound();
-    // 2) Increase/decrease volume
     void setVolume(float newVolumePosition);
-    // 3) Adjust tone
     void setTone(float newTonePosition);
 };
+
+void ElectricGuitar::outputSound()
+{
+    std::cout << "ElectricGuitar::outputSound() called" << std::endl;
+}
+
+void ElectricGuitar::setVolume(float newVolumePosition)
+{
+    volumeKnobPosition = newVolumePosition;
+}
+
+void ElectricGuitar::setTone(float newTonePosition)
+{
+    toneKnobPosition = newTonePosition;
+}
 
 /*
 4)
@@ -133,36 +228,91 @@ struct TapePlayer
 {
     struct Tape
     {
-        float length;
-        float currentPosition;
-        bool isWritable;
+        float length = 60.0f;
+        float currentPosition = 0.0f;
+        bool isWritable = true;
 
-        void setWritable(bool writable);
-        void updatePosition(float newPosition);
+        void setWritable(bool writable)
+        {
+            isWritable = writable;
+        }
+
+        void updatePosition(float newPosition)
+        {
+            currentPosition = newPosition;
+        }
     };
 
-
-    // 1) Tape
     Tape tape;
-    // 2) Control Buttons
-    int numberOfButtons;
-    // 3) Tape timer position
-    float tapeTimerPosition;
-    // 4) Speed Selector
-    float speedSelectorPosition;
-    // 5) Volume Slider
-    float volumeSliderPosition;
+    int numberOfButtons = 6;
+    float tapeTimerPosition = 0.0f;
+    float speedSelectorPosition = 2.0f;
+    float volumeSliderPosition = 1.0f;
 
-
-    // 1) Play tape
-    void playTape(Tape& tape, float lengthToPlay, float speedSelectorPosition);
-    // 2) Rewind tape
-    void rewindTape(Tape& tape);
-    // 3) Record to tape
-    bool recordToTape(Tape& tape);
-    // 4) Reset tape timer
+    void playTape(Tape& tapeToPlay, float lengthToPlay);
+    void rewindTape(Tape& tapeToRewind, float amountToRewind);
+    bool recordToTape(Tape& tape, float amountToRecord);
     bool resetTapeTimer();
+
 };
+
+void TapePlayer::playTape(TapePlayer::Tape& tapeToPlay, float lengthToPlay)
+{
+    float startingPosition = tapeToPlay.currentPosition;
+
+    tapeToPlay.currentPosition -= lengthToPlay;
+
+    if (tapeToPlay.currentPosition > tapeToPlay.length)
+    {
+        tapeToPlay.currentPosition = tapeToPlay.length;
+    }
+
+    tapeTimerPosition += tapeToPlay.currentPosition - startingPosition;
+}
+
+void TapePlayer::rewindTape(TapePlayer::Tape& tapeToRewind, float amountToRewind)
+{
+    tapeToRewind.currentPosition -= amountToRewind;
+
+    if (tapeToRewind.currentPosition < 0.0f)
+    {
+        tapeToRewind.currentPosition = 0.0f;
+    }
+
+    tapeTimerPosition -= amountToRewind;
+
+    if (tapeTimerPosition < 0.0f)
+    {
+        tapeTimerPosition = 0.0f;
+    }
+}
+
+bool TapePlayer::recordToTape(TapePlayer::Tape& tapeToRecord, float amountToRecord)
+{
+    if (tapeToRecord.currentPosition == tapeToRecord.length)
+    {
+        return false;
+    }
+
+    float startingPosition = tapeToRecord.currentPosition;
+
+    tapeToRecord.currentPosition -= amountToRecord;
+
+    if (tapeToRecord.currentPosition > tapeToRecord.length)
+    {
+        tapeToRecord.currentPosition = tapeToRecord.length;
+    }
+
+    tapeTimerPosition += tapeToRecord.currentPosition - startingPosition;
+
+    return true;
+}
+
+bool TapePlayer::resetTapeTimer()
+{
+    tapeTimerPosition = 0.0f;
+    return true;
+}
 
 /*
 5)
@@ -170,24 +320,31 @@ struct TapePlayer
 
 struct Display
 {
-    // 1) Number of pixels
-    int numberOfPixels;
-    // 2) Brightness
-    float brightness;
-    // 3) Width
-    float widthInInches;
-    // 4) Height
-    float heightInInches;
-    // 5) Amount of power consumed
-    float powerConsumedInWatts;
+    int numberOfPixels = 2073600;
+    float brightness = 0.5f;
+    float widthInInches = 6.5f;
+    float heightInInches = 4.0f;
+    float powerConsumedInWatts = 9.0f;
 
-    // 1) Update pixels with image information
     void updatePixels();
-    // 2) Clear pixels
     void clearPixels();
-    // 3) Adjust brightness 
     void setBrightness(float newBrightnessValue);
 };
+
+void Display::updatePixels()
+{
+    std::cout << "Display::updatePixels() called" << std::endl;
+}
+
+void Display::clearPixels()
+{
+    std::cout << "Display::clearPixels() called" << std::endl;
+}
+
+void Display::setBrightness(float newBrightnessValue)
+{
+    brightness = newBrightnessValue;
+}
 
 /*
 6)
@@ -195,24 +352,31 @@ struct Display
 
 struct WiFiAdapter
 {
-    // 1) Frequency
-    float frequency;
-    // 2) Upload speed
-    float uploadSpeed;
-    // 3) Download speed
-    float downloadSpeed;
-    // 4) Channel
-    int channel;
-    // 5) Amount of power consumed
-    float powerConsumedInWatts;
+    float frequency = 5000.0f;
+    float uploadSpeed = 12.0f;
+    float downloadSpeed = 40.0f;
+    int channel = 11;
+    float powerConsumedInWatts = 1.0f;
 
-    // 1) Connect to an access point
     void connectToAccessPoint();
-    // 2) Upload data 
-    void uploadData();
-    // 3) Download data
-    void downloadData();
+    float uploadData(float amountToUpload);
+    float  downloadData(float amountToDownload);
 };
+
+void WiFiAdapter::connectToAccessPoint()
+{
+    std::cout << "WiFiAdapter::connectToAccessPoint() called" << std::endl;
+}
+
+float WiFiAdapter::uploadData(float amountToUpload)
+{
+    return amountToUpload / uploadSpeed;
+}
+
+float WiFiAdapter::downloadData(float amountToDownload)
+{
+    return amountToDownload / downloadSpeed;
+}
 
 /*
 7)
@@ -220,24 +384,31 @@ struct WiFiAdapter
 
 struct AudioOutputSystem
 {
-    // 1) Volume level
-    float volumeLevel;
-    // 2) Sample rate
-    int sampleRate;
-    // 3) Bit depth
-    int bitDepth;
-    // 4) number of output channels
-    int numberOfOutputChannels;
-    // 5) amount of power consumed
-    float powerConsumedInWatts;
+    float volumeLevel = 0.5f;
+    int sampleRate = 44100;
+    int bitDepth = 16;
+    int numberOfOutputChannels = 2;
+    float powerConsumedInWatts = 4.0f;
 
-    // 1) Output audio
     void outputAudio();
-    // 2) Receive audio input
     void receiveAudioInput();
-    // 3) Adjust volume level
-    void setVolumeLevel();
+    void setVolumeLevel(float newVolumeLevel);
 };
+
+void AudioOutputSystem::outputAudio()
+{
+    std::cout << "AudioOutputSystem::outputAudio() called" << std::endl;
+}
+
+void AudioOutputSystem::receiveAudioInput()
+{
+    std::cout << "AudioOutputSystem::receiveAudioInput() called" << std::endl;
+}
+
+void AudioOutputSystem::setVolumeLevel(float newVolumeLevel)
+{
+    volumeLevel = newVolumeLevel;
+}
 
 /*
 8)
@@ -245,24 +416,31 @@ struct AudioOutputSystem
 
 struct CPU
 {
-    // 1) Clock speed in MHz
-    float clockSpeedInMHz;
-    // 2) Number of cores
-    int numberOfCores;
-    // 3) Number of threads
-    int numberOfThreads;
-    // 4) Cache size in MB
-    float cacheSizeInMB;
-    // 5) amount of power consumed
-    float powerConsumedInWatts;
+    float clockSpeedInGHz = 3.5f;
+    int numberOfCores = 4;
+    int numberOfThreads = 12;
+    float cacheSizeInMB = 6.0f;
+    float powerConsumedInWatts = 10.0f;
 
-    // 1) Fetch instructions from memory
-    void fetchInstructions(int threadNumber, int sizeOfInstructions);
-    // 2) Execute instructions
-    void executeInstructions(int threadNumber);
-    // 3) Write data to memory
+    void fetchInstructions();
+    float executeInstructions(float sizeOfInstructions);
     void sendDataToRAM();
 };
+
+void CPU::fetchInstructions()
+{
+    std::cout << "CPU::fetchInstructions() called" << std::endl;
+}
+
+float CPU::executeInstructions(float sizeOfInstructions)
+{
+    return sizeOfInstructions / clockSpeedInGHz;
+}
+
+void CPU::sendDataToRAM()
+{
+    std::cout << "CPU::sendDataToRAM() called" << std::endl;
+}
 
 /*
 9)
@@ -270,24 +448,36 @@ struct CPU
 
 struct RAM
 {
-    // 1) Capacity 
-    int capacityInBytes;
-    // 2) Clock speed
-    float clockSpeedInMHz;
-    // 3) Bus width
-    int busWidthInBits;
-    // 4) Number of pins
-    int numPins;
-    // 5) Amount of power consumed
-    float powerConsumedInWatts;
+    float capacityInMB = 4.0f;
+    float clockSpeedInMHz = 1600.0f;
+    int busWidthInBits = 64;
+    int numPins = 168;
+    float powerConsumedInWatts = 3.0f;
 
-    // 1) Write data to memory
     bool writeToMemory(int dataToWrite);
-    // 2) Clear memory
     void clearMemory();
-    // 3) Send data to CPU
     void sendDataToCPU();
 };
+
+bool RAM::writeToMemory(int dataToWrite)
+{
+    if (dataToWrite < capacityInMB)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void RAM::clearMemory()
+{
+    std::cout << "RAM::clearMemory() called" << std::endl;
+}
+
+void RAM::sendDataToCPU()
+{
+    std::cout << "RAM::sendDataToCPU() called" << std::endl;
+}
 
 /*
 10)
@@ -295,24 +485,31 @@ struct RAM
 
 struct PortableVideoGameSystem
 {
-    // 1) Display
     Display display;
-    // 2) WiFi Adapter
     WiFiAdapter wifiAdapter;
-    // 3) Audio output system
     AudioOutputSystem audioOutput;
-    // 4) CPU
     CPU cpu;
-    // 5) RAM
     RAM memory;
 
-    // 1) Load game software
     void loadSoftware();
-    // 2) Show images on display
     void sendImageToDisplay();
-    // 3) Play sound from speakers
     void sendSoundToSpeakers();
 };
+
+void PortableVideoGameSystem::loadSoftware()
+{
+    std::cout << "PortableVideoGameSystem::loadSoftware() called" << std::endl;
+}
+
+void PortableVideoGameSystem::sendImageToDisplay()
+{
+    std::cout << "PortableVideoGameSystem::sendImageToDisplay() called" << std::endl;
+}
+
+void PortableVideoGameSystem::sendSoundToSpeakers()
+{
+    std::cout << "PortableVideoGameSystem::sendSoundToSpeakers() called" << std::endl;
+}
 
 #include <iostream>
 int main()
