@@ -102,7 +102,7 @@ struct Chameleon
 
 Chameleon::Chameleon()
 {
-
+    std::cout << "<Chameleon> was created." << std::endl;
 }
 
 float Chameleon::run(float speed, float timeToRun)
@@ -146,7 +146,7 @@ struct FastFoodRestaurant
 
 FastFoodRestaurant::FastFoodRestaurant()
 {
-
+    std::cout << "<FastFoodRestaurant> was created." << std::endl;
 }
 
 bool FastFoodRestaurant::makeBurger(int burgersToMake)
@@ -213,7 +213,7 @@ struct ElectricGuitar
 
 ElectricGuitar::ElectricGuitar()
 {
-
+    std::cout << "<ElectricGuitar> was created." << std::endl;
 }
 
 void ElectricGuitar::outputSound()
@@ -274,7 +274,7 @@ struct TapePlayer
 
 TapePlayer::TapePlayer()
 {
-
+    std::cout << "<TapePlayer> was created." << std::endl;
 }
 
 void TapePlayer::playTape(TapePlayer::Tape& tapeToPlay, float lengthToPlay)
@@ -357,7 +357,7 @@ struct Display
 
 Display::Display()
 {
-
+    std::cout << "<Display> was created." << std::endl;
 }
 
 void Display::updatePixels()
@@ -398,7 +398,7 @@ struct WiFiAdapter
 
 WiFiAdapter::WiFiAdapter()
 {
-
+    std::cout << "<WiFiAdapter> was created." << std::endl;
 }
 
 void WiFiAdapter::connectToAccessPoint()
@@ -441,7 +441,7 @@ struct AudioOutputSystem
 
 AudioOutputSystem::AudioOutputSystem()
 {
-
+    std::cout << "<AudioOutputSystem> was created." << std::endl;
 }
 
 void AudioOutputSystem::outputAudio()
@@ -482,7 +482,7 @@ struct CPU
 
 CPU::CPU()
 {
-
+    std::cout << "<CPU> was created." << std::endl;
 }
 
 void CPU::fetchInstructions()
@@ -522,7 +522,7 @@ struct RAM
 
 RAM::RAM()
 {
-
+    std::cout << "<RAM> was created." << std::endl;
 }
 
 bool RAM::writeToMemory(int dataToWrite)
@@ -568,7 +568,7 @@ struct PortableVideoGameSystem
 
 PortableVideoGameSystem::PortableVideoGameSystem()
 {
-
+    std::cout << "<PortableVideoGameSystem> was created." << std::endl;
 }
 
 void PortableVideoGameSystem::loadSoftware()
