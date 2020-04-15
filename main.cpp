@@ -53,10 +53,19 @@ struct Chameleon
 {
     struct Color
     {
-        int red = 255;
-        int green = 255;
-        int blue = 255;
-        int alpha = 255;
+        int red;
+        int green;
+        int blue;
+        int alpha;
+
+        Color()  :
+        red(0),
+        green(135),
+        blue(25),
+        alpha(255)
+        {
+            
+        }
 
         void setColor(int newRedValue, int newGreenValue, int newBlueValue)
         {
@@ -71,12 +80,12 @@ struct Chameleon
         }
     };
 
-    float length = 5;
-    float weight = 3;
+    float length {5.0f};
+    float weight {3.0f};
     Color color;
-    int numberOfTeeth = 35;
-    int numberOfScales = 4800;
-    float totalTongueFlickDistance = 0;
+    int numberOfTeeth;
+    int numberOfScales;
+    float totalTongueFlickDistance;
 
     Chameleon();
     float run(float speed, float timeToRun);
@@ -84,7 +93,10 @@ struct Chameleon
     void flickTongue(float flickDistance, int numberOfFlicks);
 };
 
-Chameleon::Chameleon()
+Chameleon::Chameleon() :
+numberOfTeeth(35),
+numberOfScales(4800),
+totalTongueFlickDistance(0)
 {
     std::cout << "<Chameleon> was created." << std::endl;
 }
@@ -96,6 +108,9 @@ float Chameleon::run(float speed, float timeToRun)
 
 void Chameleon::changeColor(int newRedValue, int newGreenValue, int newBlueValue)
 {
+    std::cout << "Chamelon: Current RGB color is (" <<
+        color.red << ", " << color.green << ", " << color.blue << ")" << std::endl;
+
     color.setColor(newRedValue, newGreenValue, newBlueValue);
 
     std::cout << "Chameleon changed color!  New RGB value is (" <<
@@ -105,6 +120,10 @@ void Chameleon::changeColor(int newRedValue, int newGreenValue, int newBlueValue
 void Chameleon::flickTongue(float flickDistance, int numberOfFlicks)
 {
     totalTongueFlickDistance += numberOfFlicks * flickDistance;
+
+    std::cout << "Chameleon flicked its tongue " << numberOfFlicks << 
+        " times! Total tongue flick distance is now " << totalTongueFlickDistance <<
+        " inches." << std::endl;
 }
 
 /*
@@ -113,13 +132,13 @@ void Chameleon::flickTongue(float flickDistance, int numberOfFlicks)
 
 struct FastFoodRestaurant
 {
-    float profitPerBurger = 1.65f;
-    float profitPerPotato = 0.49f;
-    float profitsPerWeek = 0.0f;
+    float profitPerBurger {1.65f};
+    float profitPerPotato {0.49f};
+    float profitsPerWeek {0.0f};
     int burgersUsedPerWeek = 0;
     int potatoesUsedPerWeek = 0;
-    int burgersInFreezer = 100;
-    int potatoesInPantry = 100;
+    int burgersInFreezer;
+    int potatoesInPantry;
 
     FastFoodRestaurant();
     bool makeBurger(int numBurgers);
@@ -128,7 +147,9 @@ struct FastFoodRestaurant
     bool makeChameleonBurger(Chameleon& chameleon);
 };
 
-FastFoodRestaurant::FastFoodRestaurant()
+FastFoodRestaurant::FastFoodRestaurant() :
+burgersInFreezer(200),
+potatoesInPantry(100)
 {
     std::cout << "<FastFoodRestaurant> was created." << std::endl;
 }
@@ -183,11 +204,11 @@ bool FastFoodRestaurant::makeChameleonBurger(Chameleon& chameleon)
 
 struct ElectricGuitar
 {
-    float neckLength = 32.5f;
+    float neckLength;
     float volumeKnobPosition = 1.0f;
     float toneKnobPosition = 1.0f;
-    int numberOfPickups = 3;
-    int numberOfStrings = 6;
+    int numberOfPickups;
+    int numberOfStrings;
 
     ElectricGuitar();
     void outputSound();
@@ -195,9 +216,13 @@ struct ElectricGuitar
     void setTone(float newTonePosition);
 };
 
-ElectricGuitar::ElectricGuitar()
+ElectricGuitar::ElectricGuitar() :
+neckLength(22.5f),
+numberOfPickups(3),
+numberOfStrings(6)
 {
-    std::cout << "<ElectricGuitar> was created." << std::endl;
+    std::cout << "<ElectricGuitar> was created. This guitar has a " << neckLength << 
+        " inch neck and " << numberOfPickups << " pickups." << std::endl;
 }
 
 void ElectricGuitar::outputSound()
@@ -227,9 +252,17 @@ struct TapePlayer
 {
     struct Tape
     {
-        float length = 60.0f;
-        float currentPosition = 0.0f;
-        bool isWritable = true;
+        float length;
+        float currentPosition;
+        bool isWritable;
+
+        Tape() :
+        length(60.f),
+        currentPosition(0.0f),
+        isWritable(true)
+        {
+            std::cout << "<Tape> was created." << std::endl;
+        }
 
         void setWritable(bool writable)
         {
@@ -244,9 +277,9 @@ struct TapePlayer
 
     Tape tape;
     int numberOfButtons = 6;
-    float tapeTimerPosition = 0.0f;
-    float speedSelectorPosition = 2.0f;
-    float volumeSliderPosition = 1.0f;
+    float tapeTimerPosition {0.0f};
+    float speedSelectorPosition;
+    float volumeSliderPosition;
 
     TapePlayer();
     void playTape(Tape& tapeToPlay, float lengthToPlay);
@@ -256,7 +289,9 @@ struct TapePlayer
 
 };
 
-TapePlayer::TapePlayer()
+TapePlayer::TapePlayer() :
+speedSelectorPosition(1.0f),
+volumeSliderPosition(0.5f)
 {
     std::cout << "<TapePlayer> was created." << std::endl;
 }
@@ -328,10 +363,10 @@ bool TapePlayer::resetTapeTimer()
 struct Display
 {
     int numberOfPixels = 2073600;
-    float brightness = 0.5f;
-    float widthInInches = 6.5f;
-    float heightInInches = 4.0f;
-    float powerConsumedInWatts = 9.0f;
+    float brightness {0.5f};
+    float widthInInches;
+    float heightInInches;
+    float powerConsumedInWatts;
 
     Display();
     void updatePixels();
@@ -339,9 +374,13 @@ struct Display
     void setBrightness(float newBrightnessValue);
 };
 
-Display::Display()
+Display::Display() : 
+widthInInches(6.5f),
+heightInInches(4.0f),
+powerConsumedInWatts(9.0f)
 {
-    std::cout << "<Display> was created." << std::endl;
+    std::cout << "<Display> was created." << "It is " << widthInInches << 
+        " inches wide by " << heightInInches << " inches high." << std::endl;
 }
 
 void Display::updatePixels()
@@ -368,11 +407,11 @@ void Display::setBrightness(float newBrightnessValue)
 
 struct WiFiAdapter
 {
-    float frequency = 5000.0f;
-    float uploadSpeed = 12.0f;
-    float downloadSpeed = 40.0f;
-    int channel = 11;
-    float powerConsumedInWatts = 1.0f;
+    float frequency;
+    float uploadSpeed {12.0f};
+    float downloadSpeed {40.0f};
+    int channel;
+    float powerConsumedInWatts {1.0f};
 
     WiFiAdapter();
     void connectToAccessPoint();
@@ -380,9 +419,12 @@ struct WiFiAdapter
     float  downloadData(float amountToDownload);
 };
 
-WiFiAdapter::WiFiAdapter()
+WiFiAdapter::WiFiAdapter() :
+frequency(5000.0f),
+channel(11)
 {
-    std::cout << "<WiFiAdapter> was created." << std::endl;
+    std::cout << "<WiFiAdapter> was created. This adapter operates at " << 
+        frequency << "Hz on channel " << channel << std::endl;
 }
 
 void WiFiAdapter::connectToAccessPoint()
@@ -411,11 +453,11 @@ float WiFiAdapter::downloadData(float amountToDownload)
 
 struct AudioOutputSystem
 {
-    float volumeLevel = 0.5f;
-    int sampleRate = 44100;
-    int bitDepth = 16;
+    float volumeLevel {0.5f};
+    int sampleRate;
+    int bitDepth;
     int numberOfOutputChannels = 2;
-    float powerConsumedInWatts = 4.0f;
+    float powerConsumedInWatts {4.0f};
 
     AudioOutputSystem();
     void outputAudio();
@@ -423,9 +465,12 @@ struct AudioOutputSystem
     void setVolumeLevel(float newVolumeLevel);
 };
 
-AudioOutputSystem::AudioOutputSystem()
+AudioOutputSystem::AudioOutputSystem() :
+sampleRate(44100),
+bitDepth(16)
 {
-    std::cout << "<AudioOutputSystem> was created." << std::endl;
+    std::cout << "<AudioOutputSystem> was created. This audio system consumes " <<
+        powerConsumedInWatts << " watts of power." << std::endl;
 }
 
 void AudioOutputSystem::outputAudio()
@@ -452,11 +497,11 @@ void AudioOutputSystem::setVolumeLevel(float newVolumeLevel)
 
 struct CPU
 {
-    float clockSpeedInGHz = 3.5f;
-    int numberOfCores = 4;
-    int numberOfThreads = 12;
-    float cacheSizeInMB = 6.0f;
-    float powerConsumedInWatts = 10.0f;
+    float clockSpeedInGHz;
+    int numberOfCores;
+    int numberOfThreads;
+    float cacheSizeInMB;
+    float powerConsumedInWatts {10.0f};
 
     CPU();
     void fetchInstructions();
@@ -464,9 +509,13 @@ struct CPU
     void sendDataToRAM();
 };
 
-CPU::CPU()
+CPU::CPU() :
+clockSpeedInGHz(3.5f),
+numberOfCores(4),
+numberOfThreads(12),
+cacheSizeInMB(6.0f)
 {
-    std::cout << "<CPU> was created." << std::endl;
+    std::cout << "<CPU> was created. This CPU has " << numberOfCores << " cores." << std::endl;
 }
 
 void CPU::fetchInstructions()
@@ -496,7 +545,7 @@ struct RAM
     float clockSpeedInMHz = 1600.0f;
     int busWidthInBits = 64;
     int numPins = 168;
-    float powerConsumedInWatts = 3.0f;
+    float powerConsumedInWatts {3.0f};
 
     RAM();
     bool writeToMemory(int dataToWrite);
@@ -504,7 +553,9 @@ struct RAM
     void sendDataToCPU();
 };
 
-RAM::RAM()
+RAM::RAM() :
+capacityInBytes(40000),
+clockSpeedInMHz(1600.0f)
 {
     std::cout << "<RAM> was created." << std::endl;
 }
@@ -582,6 +633,8 @@ int main()
     std::cout << "This Chameleon just ran " << cham.run(15.0f, 60.0) << " units." << std::endl;
     std::cout << "This Chameleon has " << cham.numberOfTeeth << " teeth." << std::endl;
     std::cout << "This Chameleon has " << cham.numberOfScales << " scales." << std::endl;
+    cham.flickTongue(2.5, 3);
+    cham.flickTongue(3.0, 5);
     std::cout << std::endl;
 
     FastFoodRestaurant burgerKing;
@@ -608,8 +661,6 @@ int main()
     std::cout << std::endl;
 
     Display display;
-    std::cout << "This display is " << display.widthInInches << " inches wide by " <<
-        display.heightInInches << " inches tall." << std::endl;
     display.updatePixels();
     display.clearPixels();
     display.setBrightness(0.75f);
@@ -619,19 +670,15 @@ int main()
     wifiAdapter.connectToAccessPoint();
     wifiAdapter.uploadData(1000.50f);
     wifiAdapter.downloadData(43646.60f);
-    std::cout << "This WiFi Adapter operates at a frequency of " << wifiAdapter.frequency << "MHz." << std::endl;
     std::cout << std::endl;
 
     AudioOutputSystem audioOut;
     audioOut.setVolumeLevel(0.9f);
     audioOut.outputAudio();
-    std::cout << "This audio system consumes " << audioOut.powerConsumedInWatts <<
-        " watts of power." << std::endl;
     std::cout << std::endl;
 
     CPU cpu;
     cpu.executeInstructions(1.567f);
-    std::cout << "This CPU has " << cpu.numberOfCores << " cores." << std::endl;
     std::cout << std::endl;
 
     RAM ram;
