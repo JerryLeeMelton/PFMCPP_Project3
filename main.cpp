@@ -112,7 +112,7 @@ struct Chameleon
     };
 
     float length {5.0f};
-    float weight {3.0f};
+    float weight {8.0f};
     Color color;
     int numberOfTeeth;
     int numberOfScales;
@@ -122,6 +122,7 @@ struct Chameleon
     float run(float speed, float timeToRun);
     void changeColor(int newRedValue, int newGreenValue, int newBlueValue);
     void flickTongue(float flickDistance, int numberOfFlicks);
+    void eat(int fliesToEat);
 };
 
 Chameleon::Chameleon() :
@@ -157,6 +158,23 @@ void Chameleon::flickTongue(float flickDistance, int numberOfFlicks)
         " inches." << std::endl;
 }
 
+void Chameleon::eat (int fliesToEat) 
+{
+    float weightGained = 0.0f;
+
+    std::cout << "Chameleon is eating " << fliesToEat << " flies!" << std::endl;
+
+    for(int fliesEaten = 0; fliesEaten < fliesToEat; ++fliesEaten)
+    {
+        weightGained += 0.1f;
+
+        std::cout << "Ate a fly and gained 0.1" << std::endl;
+    }
+
+    std::cout << "Chameleon gained a total of " << weightGained << std::endl;
+    weight += weightGained;
+}
+
 /*
 2)
  */
@@ -165,9 +183,9 @@ struct FastFoodRestaurant
 {
     float profitPerBurger {1.65f};
     float profitPerPotato {0.49f};
-    float profitsPerWeek {0.0f};
-    int burgersUsedPerWeek = 0;
-    int potatoesUsedPerWeek = 0;
+    float totalProfits {0.0f};
+    int burgersSold = 0;
+    int potatoesSold = 0;
     int burgersInFreezer;
     int potatoesInPantry;
 
@@ -176,6 +194,7 @@ struct FastFoodRestaurant
     bool makeFries(int potatoesToUse);
     void restockSupplies(int newPotatoes, int newBurgers);
     bool makeChameleonBurger(Chameleon& chameleon);
+    void calculateProft();
 };
 
 FastFoodRestaurant::FastFoodRestaurant() :
@@ -190,8 +209,9 @@ bool FastFoodRestaurant::makeBurger(int burgersToMake)
     if (burgersInFreezer > 0)
     {
         burgersInFreezer -= burgersToMake;
+        burgersSold += burgersToMake;
 
-        std::cout << "Made " << burgersToMake << " burgers. Burgers left in freezer: " << burgersInFreezer << std::endl;
+        std::cout << "Made " << burgersToMake << " burgers. Burgers left in freezer: " << burgersInFreezer << ". Burgers sold: " << burgersSold << std::endl;
 
         return true;
     }
@@ -204,8 +224,9 @@ bool FastFoodRestaurant::makeFries(int potatoesToUse)
     if (potatoesToUse < potatoesInPantry)
     {
         potatoesInPantry -= potatoesToUse;
+        potatoesSold += potatoesToUse;
 
-        std::cout << "Made fries using " << potatoesToUse << " potatoes. Potatoes left in freezer: " << potatoesInPantry << std::endl;
+        std::cout << "Made fries using " << potatoesToUse << " potatoes. Potatoes left in freezer: " << potatoesInPantry << ". Potatoes sold: " << potatoesSold << std::endl;
 
         return true;
     }
@@ -229,6 +250,21 @@ bool FastFoodRestaurant::makeChameleonBurger(Chameleon& chameleon)
     return true;
 }
 
+void FastFoodRestaurant::calculateProft()
+{
+    while(burgersSold > 0)
+    {
+        totalProfits += profitPerBurger;
+        burgersSold -= 1;
+    }
+
+    while(potatoesSold > 0)
+    {
+        totalProfits += profitPerPotato;
+        potatoesSold -= 1;
+    }
+}
+
 /*
 3)
  */
@@ -245,6 +281,7 @@ struct ElectricGuitar
     void outputSound();
     void setVolume(float newVolumePosition);
     void setTone(float newTonePosition);
+    void setVolumeGradually(float newVolumePosition);
 };
 
 ElectricGuitar::ElectricGuitar() :
@@ -273,6 +310,28 @@ void ElectricGuitar::setTone(float newTonePosition)
     toneKnobPosition = newTonePosition;
 
     std::cout << "ElectricGuitar::setTone(): Tone knob position is now " << toneKnobPosition << std::endl;
+}
+
+void ElectricGuitar::setVolumeGradually(float newVolumePosition)
+{
+    std::cout << "ElectricGuitar::setVolumeGradually(): Volume knob is starting at " << volumeKnobPosition << std::endl;
+
+    if(newVolumePosition > volumeKnobPosition)
+    {
+        while(newVolumePosition > volumeKnobPosition)
+        {
+            volumeKnobPosition += 0.05f;
+            std::cout << "Moved volume knob down a bit. Current knob position: " << volumeKnobPosition << std::endl;
+        }
+    }
+    else 
+    {
+        while(newVolumePosition < volumeKnobPosition)
+        {
+            volumeKnobPosition -= 0.05f;
+            std::cout << "Moved volume knob up a bit. Current knob position: " << volumeKnobPosition << std::endl;
+        }
+    }
 }
 
 /*
@@ -317,7 +376,7 @@ struct TapePlayer
     void rewindTape(Tape& tapeToRewind, float amountToRewind);
     bool recordToTape(Tape& tape, float amountToRecord);
     bool resetTapeTimer();
-
+    void setVolumeSliderGradually(float newVolumePosition);
 };
 
 TapePlayer::TapePlayer() :
@@ -385,6 +444,28 @@ bool TapePlayer::resetTapeTimer()
         tapeTimerPosition << std::endl;
     tapeTimerPosition = 0.0f;
     return true;
+}
+
+void TapePlayer::setVolumeSliderGradually(float newVolumePosition)
+{
+    std::cout << "TapePlayer::setVolumeSliderGradually(): Volume slider starting at " << volumeSliderPosition << std::endl;
+
+    if(newVolumePosition > volumeSliderPosition)
+    {
+        while(newVolumePosition > volumeSliderPosition)
+        {
+            volumeSliderPosition += 0.05f;
+            std::cout << "Moved volume slider up a bit. Current slider position: " << volumeSliderPosition << std::endl;
+        }
+    } 
+    else
+    {
+        while(newVolumePosition < volumeSliderPosition)
+        {
+            volumeSliderPosition -= 0.05f;
+            std::cout << "Moved volume slider down a bit. Current slider position: " << volumeSliderPosition << std::endl;
+        }
+    }
 }
 
 /*
@@ -664,16 +745,23 @@ int main()
     std::cout << "This Chameleon just ran " << cham.run(15.0f, 60.0) << " units." << std::endl;
     std::cout << "This Chameleon has " << cham.numberOfTeeth << " teeth." << std::endl;
     std::cout << "This Chameleon has " << cham.numberOfScales << " scales." << std::endl;
+    std::cout << "This Chameleon weighs " << cham.weight << std::endl;
     cham.flickTongue(2.5, 3);
     cham.flickTongue(3.0, 5);
+    cham.eat(3);
+    cham.eat(6);
+    std::cout << "This Chameleon weighs " << cham.weight << " after eating" << std::endl;
     std::cout << std::endl;
 
     FastFoodRestaurant burgerKing;
+    std::cout << "Initial profits: $" << burgerKing.totalProfits << std::endl;
     burgerKing.makeFries(67);
     burgerKing.makeBurger(28);
     burgerKing.restockSupplies(35, 24);
     std::cout << "This restaurant makes $" << burgerKing.profitPerBurger << " profit per burger." << std::endl;
     std::cout << "This restaurant makes $" << burgerKing.profitPerPotato << " profit per potato." << std::endl;
+    burgerKing.calculateProft();
+    std::cout << "Profits after sales: $" << burgerKing.totalProfits << std::endl;
     std::cout << std::endl;
 
     ElectricGuitar axe;
@@ -682,6 +770,8 @@ int main()
     axe.setVolume(0.9f);
     axe.setTone(0.5f);
     axe.outputSound();
+    axe.setVolumeGradually(0.3f);
+    axe.setVolumeGradually(1.0f);
     std::cout << std::endl;
 
     TapePlayer walkman;
@@ -689,6 +779,8 @@ int main()
     std::cout << "This tape player has " << walkman.numberOfButtons << " buttons." << std::endl;
     walkman.playTape(walkman.tape, 35.6f);
     walkman.resetTapeTimer();
+    walkman.setVolumeSliderGradually(0.65f);
+    walkman.setVolumeSliderGradually(0.45f);
     std::cout << std::endl;
 
     Display display;
