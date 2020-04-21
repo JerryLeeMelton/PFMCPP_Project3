@@ -164,7 +164,7 @@ void Chameleon::eat (int fliesToEat)
 
     std::cout << "Chameleon is eating " << fliesToEat << " flies!" << std::endl;
 
-    for(int fliesEaten = 0; fliesEaten < fliesToEat; fliesEaten++)
+    for(int fliesEaten = 0; fliesEaten < fliesToEat; ++fliesEaten)
     {
         weightGained += 0.1f;
 
